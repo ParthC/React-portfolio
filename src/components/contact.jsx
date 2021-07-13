@@ -1,8 +1,20 @@
 import React from "react";
+import * as emailjs from 'emailjs-com';
 import imageOverlay from "../img/contact.JPEG";
 
 class Contact extends React.Component {
   render() {
+    function sendEmail(e) {
+    e.preventDefault();
+      emailjs.sendForm('service_gndgaye', 'template_udhe2wt', '.contactForm', 'user_ztdLXszM1osYvxcU00T3Z', e.target)
+      .then((result) => {
+          window.confirm("Thank you for Contacting me I will get back to you soon");
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
+      e.target.reset()
+    }
     return (
       <section
           className="paralax-mf footer-paralax bg-image sect-mt4 route"
@@ -21,6 +33,7 @@ class Contact extends React.Component {
                       </div>
                       <div>
                         <form
+                          onSubmit={sendEmail}
                           className="contactForm"
                         >
                           <div id="sendmessage">
@@ -32,7 +45,7 @@ class Contact extends React.Component {
                               <div className="form-group">
                                 <input
                                   type="text"
-                                  name=""
+                                  name="name"
                                   ref="name"
                                   className="form-control"
                                   id="name"
@@ -48,7 +61,7 @@ class Contact extends React.Component {
                                 <input
                                   type="email"
                                   className="form-control"
-                                  name=""
+                                  name="email"
                                   id="email"
                                   placeholder="Your Email"
                                   data-rule="email"
@@ -62,7 +75,7 @@ class Contact extends React.Component {
                                 <input
                                   type="text"
                                   className="form-control"
-                                  name=""
+                                  name="subject"
                                   id="subject"
                                   placeholder="Subject"
                                   data-rule="minlen:4"
@@ -75,7 +88,7 @@ class Contact extends React.Component {
                               <div className="form-group">
                                 <textarea
                                   className="form-control"
-                                  name=""
+                                  name="message"
                                   rows="5"
                                   data-rule="required"
                                   data-msg="Please write something for us"
@@ -86,8 +99,6 @@ class Contact extends React.Component {
                             </div>
                             <div className="col-md-12">
                               <button
-                                onClick={e =>
-                                window.confirm("Thank you for Contacting me I will get back to you soon ")}
                                 style={{ fontFamily: 'Comic Sans MS'}}
                                 type="submit"
                                 className="button button-a button-big button-rouded"
